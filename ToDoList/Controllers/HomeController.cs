@@ -65,16 +65,18 @@ namespace ToDoList.Controllers
         [HttpGet]
         public IActionResult Add()
         {
+            var categories = context.Categories.ToList();
             var status = context.Statuses.ToList();
 
-            if (status == null || !status.Any())
+            if (!categories.Any() || !status.Any())
             {
-                _logger.LogError("Status is null or empty");
+                _logger.LogError("Categories or Status is null or empty");
                 return View("Error");
             }
 
+            ViewBag.Categories = categories;
             ViewBag.Status = status;
-            var task = new ToDo { StatusId = 1 }; // Предполагая, что 1 представляет "открыто"
+            var task = new ToDo { StatusId = 1 }; // Assuming 1 represents "open"
             return View(task);
         }
 
