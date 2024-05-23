@@ -47,7 +47,7 @@
                             <td class="@overdue">@task.DueDate?.ToShortDateString()</td>
                             <td class="@overdue">@task.Status.Name</td>
                             <td>
-                                @if (task.StatusId == 1)
+                                @if (task.StatusId == "1")
                                 {
                                     <button type="submit" class="btn btn-primary btn-sm" name="Id" value="@task.Id">
                                         Mark Complete

@@ -2,7 +2,7 @@
 
 @{
     var categories = (IEnumerable<Category>)ViewBag.Categories;
-    var status = (IEnumerable<Status>)ViewBag.Status;
+    var status = (IEnumerable<Status>)ViewBag.Statuses;
 }
 
 <form asp-action="Add" method="post">
@@ -20,7 +20,7 @@
 
     <div class="mb-3">
         <label asp-for="DueDate" class="form-label">Due Dates:</label>
-        <input type="text" asp-for="DueDate" class="form-control" type="text" />
+        <input type="text" asp-for="DueDate" class="form-control" type="date" />
     </div>
 
     <div class="mb-3">

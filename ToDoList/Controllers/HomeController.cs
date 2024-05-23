@@ -33,12 +33,12 @@ namespace ToDoList.Controllers
 
             if (filters.HasCategory && int.TryParse(filters.CategoryId, out int categoryId))
             {
-                query = query.Where(t => t.CategoryId == categoryId);
+                query = query.Where(t => t.CategoryId == categoryId.ToString());
             }
 
             if (filters.HasStatus && int.TryParse(filters.StatusId, out int statusId))
             {
-                query = query.Where(t => t.StatusId == statusId);
+                query = query.Where(t => t.StatusId == statusId.ToString());
             }
 
             if (filters.HasDue)
@@ -75,14 +75,16 @@ namespace ToDoList.Controllers
             }
 
             ViewBag.Categories = categories;
-            ViewBag.Status = status;
-            var task = new ToDo { StatusId = 1 }; // Assuming 1 represents "open"
+            ViewBag.Statuses = status;
+            var task = new ToDo { StatusId = "1" }; // Assuming 1 represents "open"
             return View(task);
         }
 
         [HttpPost]
         public IActionResult Add(ToDo task)
         {
+            _logger.LogInformation("Add method called with task: {task}", task);
+
             // Set ViewBag properties at the start of the method
             ViewBag.Categories = context.Categories.ToList();
             ViewBag.Statuses = context.Statuses.ToList();
@@ -119,7 +121,7 @@ namespace ToDoList.Controllers
 
             if (task != null)
             {
-                task.StatusId = 2; // Assuming 2 represents "closed"
+                task.StatusId = "2"; // Assuming 2 represents "closed"
                 context.SaveChanges();
             }
             else
@@ -133,7 +135,7 @@ namespace ToDoList.Controllers
         [HttpPost]
         public IActionResult DeleteComplete(string id)
         {
-            var toDelete = context.LocalDB.Where(t => t.StatusId == 2).ToList(); // Assuming 2 represents "closed"
+            var toDelete = context.LocalDB.Where(t => t.StatusId == "2").ToList(); // Assuming 2 represents "closed"
 
             if (toDelete.Any())
             {

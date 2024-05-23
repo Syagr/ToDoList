@@ -1,5 +1,8 @@
-﻿namespace ToDoList.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ToDoList.Models
 {
+    
     public class Status
     {
         public string StatusId { get; set; } = string.Empty;
