@@ -31,14 +31,14 @@ namespace ToDoList.Controllers
                 .Include(t => t.Category)
                 .Include(t => t.Status);
 
-            if (filters.HasCategory && int.TryParse(filters.CategoryId, out int categoryId))
+            if (filters.HasCategory)
             {
-                query = query.Where(t => t.CategoryId == categoryId.ToString());
+                query = query.Where(t => t.CategoryId == filters.CategoryId);
             }
 
-            if (filters.HasStatus && int.TryParse(filters.StatusId, out int statusId))
+            if (filters.HasStatus)
             {
-                query = query.Where(t => t.StatusId == statusId.ToString());
+                query = query.Where(t => t.StatusId == filters.StatusId);
             }
 
             if (filters.HasDue)
@@ -58,6 +58,7 @@ namespace ToDoList.Controllers
                 }
             }
             var tasks = query.OrderBy(t => t.DueDate).ToList();
+
 
             return View(tasks);
         }
