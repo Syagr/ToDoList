@@ -77,7 +77,7 @@ namespace ToDoList.Controllers
             ViewBag.Categories = categories;
             ViewBag.Statuses = status;
             var task = new ToDo { StatusId = "open" };
-            return View(task);
+            return View("AddEdit", task);
         }
 
         [HttpPost]
@@ -97,7 +97,7 @@ namespace ToDoList.Controllers
             }
             else
             {
-                return View(task);
+                return View("AddEdit", task);
             }
         }
 
@@ -150,6 +150,58 @@ namespace ToDoList.Controllers
             }
 
             return RedirectToAction("Index", new { ID = id });
+        }
+
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var task = context.LocalDB.Find(id);
+            if (task == null)
+            {
+                _logger.LogWarning("Задача с ID {Id} не найдена", id);
+                return NotFound();
+            }
+
+            ViewBag.Categories = context.Categories.ToList();
+            ViewBag.Statuses = context.Statuses.ToList();
+            return View("AddEdit", task);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, ToDo task)
+        {
+            if (id != task.Id)
+            {
+                _logger.LogWarning("ID задачи не совпадает с ID URL");
+                return BadRequest();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    context.LocalDB.Update(task);
+                    context.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!context.LocalDB.Any(e => e.Id == id))
+                    {
+                        _logger.LogWarning("Задача с ID {Id} не найдена", id);
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewBag.Categories = context.Categories.ToList();
+            ViewBag.Statuses = context.Statuses.ToList();
+            return View("AddEdit", task);
         }
     }
 }

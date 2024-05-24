@@ -34,7 +34,8 @@
                         <th>Category</th>
                         <th>Due Date</th>
                         <th>Status</th>
-                        <th class="w-25"></th>
+                        <th>Actions</th>
+                        <th>Edit</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,6 +54,9 @@
                                         Mark Complete
                                     </button>
                                 }
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@task.Id" class="btn btn-primary btn-sm">Edit</a>
                             </td>
                         </tr>
                     }
