@@ -59,7 +59,6 @@ namespace ToDoList.Controllers
             }
             var tasks = query.OrderBy(t => t.DueDate).ToList();
 
-
             return View(tasks);
         }
 
