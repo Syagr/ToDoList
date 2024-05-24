@@ -76,7 +76,7 @@ namespace ToDoList.Controllers
 
             ViewBag.Categories = categories;
             ViewBag.Statuses = status;
-            var task = new ToDo { StatusId = "1" }; // Assuming 1 represents "open"
+            var task = new ToDo { StatusId = "open" };
             return View(task);
         }
 
@@ -121,8 +121,8 @@ namespace ToDoList.Controllers
 
             if (task != null)
             {
-                task.StatusId = "2"; // Assuming 2 represents "closed"
-                context.SaveChanges();
+                task.StatusId = "closed";
+                context.SaveChanges(); ;
             }
             else
             {
@@ -135,8 +135,7 @@ namespace ToDoList.Controllers
         [HttpPost]
         public IActionResult DeleteComplete(string id)
         {
-            var toDelete = context.LocalDB.Where(t => t.StatusId == "2").ToList(); // Assuming 2 represents "closed"
-
+            var toDelete = context.LocalDB.Where(t => t.StatusId == "closed").ToList();
             if (toDelete.Any())
             {
                 foreach (var task in toDelete)
